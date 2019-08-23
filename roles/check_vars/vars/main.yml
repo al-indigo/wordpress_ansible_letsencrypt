@@ -1,0 +1,7 @@
+required_vars:
+  - wp_instance_name
+  - mysql_root_passwd
+  - wp_db_passwd
+  - wp_db_user
+  - wp_location_prefix
+  - wp_port

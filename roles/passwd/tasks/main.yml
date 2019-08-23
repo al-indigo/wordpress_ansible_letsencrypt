@@ -1,0 +1,13 @@
+- name: make up root passwd
+  shell: pwgen 20 1
+  register: command_output
+
+- set_fact:
+    mysql_root_passwd: "{{ command_output.stdout }}"
+
+- name: make up db passwd
+  shell: pwgen 20 1
+  register: command_output
+
+- set_fact:
+    wp_db_passwd: "{{ command_output.stdout }}"

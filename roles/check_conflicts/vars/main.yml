@@ -1,0 +1,1 @@
+ip_check: "{{lookup('dig', wp_instance_name + '.at.ispras.ru') }}"

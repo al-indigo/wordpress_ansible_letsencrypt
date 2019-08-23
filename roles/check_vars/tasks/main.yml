@@ -1,0 +1,5 @@
+- name: "Check obligatory variables"
+  fail: 
+    msg="{{ item }} is not defined"
+  when: item not in vars
+  with_items: "{{ required_vars }}"

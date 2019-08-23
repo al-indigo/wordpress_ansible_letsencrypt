@@ -1,0 +1,18 @@
+- name: render basic nginx config
+  template:
+    src: templates/nginx-basic.yml.j2
+    dest: "{{ wp_nginx_configs_location }}/{{ wp_instance_name }}.conf"
+
+- name: reload nginx
+  shell: sudo service nginx reload
+
+- name: generate ssl cert
+  shell: "sudo certbot certonly --webroot -w /var/www/webroot/ -d {{ wp_instance_name }}.at.ispras.ru  --agree-tos -m modis@ispras"
+
+- name: render real nginx config
+  template:
+    src: templates/nginx-real.yml.j2
+    dest: "{{ wp_nginx_configs_location }}/{{ wp_instance_name }}.conf"
+
+- name: reload nginx
+  shell: sudo service nginx reload

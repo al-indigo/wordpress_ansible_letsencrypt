@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  roles:
+    - passwd
+    - check_vars
+    - check_conflicts
+    - wordpress_instance
+
+- hosts: at.ispras.ru
+  roles:
+    - register_at_at

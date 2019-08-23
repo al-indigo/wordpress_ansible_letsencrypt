@@ -1,0 +1,14 @@
+- name: install dnspython
+  become: yes
+  apt:
+    name: python-dnspython
+    update_cache: yes
+- name: install pwgen
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - pwgen
+    - docker.io
+    - docker-compose

@@ -1,0 +1,5 @@
+wp_nginx_configs_location: "/etc/nginx/generated-wordpress/"
+dns_suffix: at.ispras.ru
+dns_name: "{{ wp_instance_name }}.{{ dns_suffix }}"
+ansible_ssh_user: vmmaster
+wordpress_hostname: wp

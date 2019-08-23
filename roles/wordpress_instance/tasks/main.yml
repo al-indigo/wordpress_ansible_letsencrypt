@@ -1,0 +1,22 @@
+- name: create wp directory
+  file:
+    path: "{{ destination_folder }}"
+    state: directory
+- name: create wp database directory
+  file:
+    path: "{{ destination_folder }}/db_data"
+    state: directory
+- name: create wp wp-content directory
+  file:
+    path: "{{ destination_folder }}/wp-content"
+    state: directory
+- name: create upload.ini
+  copy:
+    src: files/uploads.ini
+    dest: "{{ destination_folder }}/uploads.ini"
+- name: render docker-compose template
+  template: 
+    src: templates/docker-compose.yml.j2
+    dest: "{{ destination_folder }}/docker-compose.yml"
+- name: run wordpress
+  shell: "docker-compose --file {{ destination_folder }}/docker-compose.yml up -d"

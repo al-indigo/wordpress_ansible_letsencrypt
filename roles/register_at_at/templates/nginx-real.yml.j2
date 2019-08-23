@@ -1,0 +1,41 @@
+server {
+  listen 80;
+  server_name {{ wp_instance_name }} {{ wp_instance_name }}.at.ispras.ru;
+  access_log /var/log/nginx/{{ wp_instance_name }}-access.log;
+  error_log /var/log/nginx/{{ wp_instance_name }}-error.log;
+
+  location / {
+    if ( $scheme = "http") {
+      rewrite ^ https://$host$request_uri? permanent;
+    }
+  }
+
+  location ~ /.well-known {
+    allow all;
+    root /var/www/webroot;
+  }
+}
+
+server {
+  listen 443 ssl;
+  server_name {{ wp_instance_name }} {{ wp_instance_name }}.at.ispras.ru;
+  access_log /var/log/nginx/{{ wp_instance_name }}-access.log;
+  error_log /var/log/nginx/{{ wp_instance_name }}-error.log;
+  ssl_certificate /etc/letsencrypt/live/{{ wp_instance_name }}.at.ispras.ru/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ wp_instance_name }}.at.ispras.ru/privkey.pem;
+
+  client_max_body_size 2g;
+
+  include /etc/nginx/letsencrypt_params;
+
+  location / {
+    set $upstream_host "{{ wordpress_hostname }}";
+    proxy_pass http://$upstream_host:{{ wp_port }};
+    include /etc/nginx/proxy_params;
+  }
+
+  location ~ /.well-known {
+    allow all;
+    root /var/www/webroot;
+  }
+}

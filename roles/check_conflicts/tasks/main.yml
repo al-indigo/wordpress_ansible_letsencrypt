@@ -1,0 +1,19 @@
+- name: debug
+  debug:
+    msg: "{{ item }}"
+  with_items: "{{ ip_check }}"
+
+- name: "Check this host for existance in brave new world"
+  fail:
+    msg="{{ item }} is already exists in dns"
+  when: item != "{{ dns_ip }}"
+  with_items: "{{ ip_check }}"
+
+- stat:
+    path: "{{ wp_location_prefix }}/{{ wp_instance_name }}"
+  register: st
+
+- name: "Check local environment for {{ wp_instance_name }} existance"
+  fail:
+    msg="Wordpress with {{ wp_instance_name }} is already deployed; maybe you wanted just restart it? You can do it with ansible-playbook restart.yml -e wp_instance_name={{ wp_instance_name }}"
+  when: st.stat.isdir is defined

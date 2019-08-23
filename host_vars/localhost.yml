@@ -1,0 +1,3 @@
+wp_db_user: modis
+wp_location_prefix: /opt/wordpress-sites/
+dns_ip: 83.149.199.97
